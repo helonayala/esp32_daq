@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="ESP32 DAQ: acquisition and control interface with 2 inputs and 1 output of ±10 V for the ESP32, with firmware and HMI for software-in-the-loop and hardware-in-the-loop.">
+  <meta name="keywords" content="ESP32, data acquisition, control, ±10 V, software-in-the-loop, hardware-in-the-loop">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ESP32 DAQ: ±10 V interface</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/daq.css">
+  <link rel="icon" href="./static/img/favicon.svg">
+
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script>
+    MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$']] } };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var b = document.querySelector('.navbar-burger'), m = document.querySelector('.navbar-menu');
+      b.addEventListener('click', function () { b.classList.toggle('is-active'); m.classList.toggle('is-active'); });
+      m.querySelectorAll('a.navbar-item').forEach(function (a) {
+        a.addEventListener('click', function () { b.classList.remove('is-active'); m.classList.remove('is-active'); });
+      });
+    });
+  </script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="#top"><strong>ESP32 DAQ</strong></a>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="#architecture">Architecture</a>
+      <a class="navbar-item" href="#boards">Boards and 3D</a>
+      <a class="navbar-item" href="#firmware">Firmware</a>
+      <a class="navbar-item" href="#hmi">HMI</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" id="top">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">ESP32 DAQ</h1>
+          <p class="subtitle is-4">Acquisition and control interface with 2 inputs and 1 output of ±10 V for the ESP32</p>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://helonayala.github.io">Helon Vicente Hultmann Ayala</a></span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://github.com/helonayala/esp32_daq" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/helonayala/analog_circuits" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-microchip"></i></span><span>Hardware</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <figure class="fig w95">
+        <img src="./static/img/block_diagram.svg" alt="Block diagram: ESP32, output stage, input conditioners, bench and ±15 V supply.">
+        <figcaption>Block diagram: ESP32, output stage, input conditioners, bench and ±15 V supply.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 section-title">Summary</h2>
+        <div class="content has-text-justified">
+          <p>
+            The firmware runs control software in real time on the ESP32, taking hardware constraints into account.
+            The goal of the bench is to allow <em>software-in-the-loop</em> and <em>hardware-in-the-loop</em>,
+            important steps in the development of any product that involves control software for physical systems.
+          </p>
+          <p>
+            The interface board bridges the ESP32 (3.3 V) and ±10 V systems:
+            <strong>2 inputs and 1 output of ±10 V</strong>, referenced to the same GND as the system.
+          </p>
+          <p class="has-text-centered">
+            <span class="chip">2 inputs ±10 V</span><span class="chip">1 output ±10 V</span>
+            <span class="chip">12-bit ADC</span><span class="chip">12-bit PWM</span>
+            <span class="chip">fixed sampling period</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="architecture">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 section-title has-text-centered">Architecture</h2>
+    <div class="content has-text-justified">
+      <ul>
+        <li><strong>Output:</strong> the ESP32 generates a 12-bit PWM on GPIO18 (19.5 kHz); RC filters turn it into a DC voltage $V_{dac}$ (0 to 3.3 V) and an amplifier on ±15 V converts it to ±10 V for the bench.</li>
+        <li><strong>Inputs:</strong> each channel scales the ±10 V signal down to 0–3.3 V and delivers it to the ADC (GPIO34 and GPIO35) through a voltage follower.</li>
+        <li><strong>Power:</strong> the ESP32 is powered from the computer USB (serial and HMI). A 5 V charger feeds the modules that generate +15 V and −15 V. The GND is common to the whole system, at a single point.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="boards">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 section-title has-text-centered">Boards and 3D CAD</h2>
+    <div class="content has-text-justified">
+      <p>
+        The circuit is split into two double-sided boards, with standard screw terminals (5.08 mm) and M3 mounting
+        holes. The complete design (schematics, boards and results) is in the
+        <a href="https://github.com/helonayala/analog_circuits">analog_circuits</a> repository.
+      </p>
+      <table class="table is-striped is-fullwidth">
+        <thead><tr><th>Board</th><th>Function</th><th>Size</th><th>Connectors</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A/B</strong></td><td>2 inputs (MCP6002), ESP32 sockets and output (TL072)</td><td class="num">74 × 72 mm</td><td>J1: VIN1, VIN2, VOUT, GND; J3: +15 V, GND, −15 V</td></tr>
+          <tr><td><strong>C</strong></td><td>±15 V supply</td><td class="num">48 × 52 mm</td><td>J3: ±15 V and GND; JP: +5 V and GND; MT and LM: wires to the modules; test points</td></tr>
+        </tbody>
+      </table>
+      <p>
+        The ESP32 DevKit plugs into two 1 × 15 sockets (D18 = PWM, D34 = A0, D35 = A1, 3V3, GND). The VIN pin of the
+        ESP32 is <strong>not</strong> used.
+      </p>
+      <p>
+        Interactive 3D models: drag to rotate, use the mouse wheel (or pinch) to zoom and right-drag to pan.
+        Component colors are illustrative (by component type).
+      </p>
+    </div>
+    <iframe class="viewer-3d" src="./static/3d/viewer.html?m=board_ab" title="3D model of board A/B" loading="lazy" allowfullscreen></iframe>
+    <div class="viewer-3d-caption">Board A/B (74 × 72 mm): inputs, ESP32 sockets and output.</div>
+    <iframe class="viewer-3d" src="./static/3d/viewer.html?m=board_c" title="3D model of board C" loading="lazy" allowfullscreen></iframe>
+    <div class="viewer-3d-caption">Board C (48 × 52 mm): ±15 V supply.</div>
+    <div class="content has-text-justified">
+      <h3>What the ESP32 sees</h3>
+      <table class="table is-striped is-fullwidth">
+        <thead><tr><th></th><th>Input (VIN1 and VIN2)</th><th>Output (VOUT)</th></tr></thead>
+        <tbody>
+          <tr><td>Pin</td><td>GPIO34 and GPIO35 (12-bit ADC, 11 dB attenuation)</td><td>GPIO18 (12-bit PWM, 19.5 kHz)</td></tr>
+          <tr><td>Conversion</td><td>$V_{in} = (V_{A0} - 1.5167)/0.08388$ (<code>cal_board.h</code>)</td><td>$V_{out} = 10.629\,u - 0.045$, with $u \in [-1, 1]$</td></tr>
+          <tr><td>Resolution</td><td>≈ 9.7 mV per count</td><td>≈ 5.2 mV per step</td></tr>
+          <tr><td>Reading</td><td>trimmed mean of several readings per sample</td><td><code>dac_apply(u)</code> writes the PWM <em>duty</em></td></tr>
+          <tr><td>Range</td><td>±10 V (protected up to ±30 V)</td><td>±10 V</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li><strong>Calibration:</strong> the gains and <em>offsets</em> measured on the bench are in <code>cal_board.h</code>, used by the firmware.</li>
+        <li><strong>Reset:</strong> with the PWM pin in high impedance (reset or flashing), the output stays at ≈ 0 V.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="firmware">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 section-title has-text-centered">Firmware</h2>
+    <div class="content has-text-justified">
+      <p>
+        The firmware (Arduino-ESP32 3.x) reads the two inputs, computes the control law and writes the output every
+        $T_s = 50$ ms, with a fixed period. It is suggested to edit only <code>firmware/esp32_daq/control.h</code>.
+      </p>
+
+      <h3>Wiring</h3>
+      <table class="table is-striped">
+        <thead><tr><th>Signal</th><th>Pin</th><th>Range</th></tr></thead>
+        <tbody>
+          <tr><td>VIN1 (input 1)</td><td>GPIO34</td><td>±10 V</td></tr>
+          <tr><td>VIN2 (input 2)</td><td>GPIO35</td><td>±10 V</td></tr>
+          <tr><td>VOUT (output)</td><td>GPIO18 (PWM → filter → amplifier)</td><td>±10 V</td></tr>
+          <tr><td>GND</td><td>common</td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="nota">Never connect the VIN (5 V) pin of the ESP32 to a 3.3 V pin. The output stays at 0 V after boot and nothing runs until the <code>G</code> command.</div>
+
+      <h3>Flash and open the HMI</h3>
+<pre><code># flash with arduino-cli + esp32:esp32 core 3.x (or: Arduino IDE, board "ESP32 Dev Module")
+./flash.sh /dev/ttyUSB0         # Windows: flash.bat COM5
+
+# HMI
+pip install -r hmi/requirements.txt
+python hmi/hmi.py               # or: python hmi/hmi.py --port COM5</code></pre>
+      <p>
+        If the upload fails, hold the BOOT button of the board when the flashing starts. In the HMI, choose the port,
+        click <strong>Connect</strong>, set the steps and click <strong>Start</strong> (ESC or <strong>Stop</strong>
+        zeroes the output). At the end of each run the data are saved in <code>hmi/data/daq_YYYYMMDD_HHMMSS.csv</code> and
+        <code>.mat</code> (<code>t, r_x, r_theta, x, theta, u, Ts, mode</code>).
+      </p>
+
+      <p>
+        The operating modes (<code>MODE</code>), the position reference (<code>REF_SEQ</code>), the input
+        normalization, the serial commands and the data format are described in the comments of <code>control.h</code>
+        and <code>esp32_daq.ino</code>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="hmi">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 section-title has-text-centered">HMI</h2>
+    <div class="content has-text-justified">
+      <p>
+        The Python HMI talks to the ESP32 over the serial port: it starts and stops the run, shows the signals live
+        and saves the data (<code>.csv</code> and <code>.mat</code>) at the end of each run.
+      </p>
+    </div>
+    <figure class="fig">
+      <img src="./static/img/hmi.png" alt="HMI with simulated signals: reference and position, reference and angle, and control signal.">
+      <figcaption>HMI with simulated signals (<code>python hmi/hmi.py --demo</code>), without the ESP32: reference r<sub>x</sub> and position x, reference r<sub>θ</sub> and angle θ, and control signal u.</figcaption>
+    </figure>
+    <div class="content has-text-justified">
+      <ul>
+        <li><strong>Connect / Start / Stop / Save:</strong> choose the serial port and connect; <em>Start</em> begins the run (ESC or <em>Stop</em> zeroes the output) and the data are saved at the end.</li>
+        <li><strong>Steps:</strong> values of r<sub>x</sub> and r<sub>θ</sub> used in the run.</li>
+        <li><strong>x normalization:</strong> channel 2 voltages at the two ends (xmin and xmax), with the <em>Read → xmin</em> and <em>Read → xmax</em> buttons, so that x lies in [−1, 1].</li>
+        <li><strong>Safety stop:</strong> the run is interrupted if |θ| exceeds the limit.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            This page uses the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies website template</a>
+            and is licensed under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

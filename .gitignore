@@ -1,0 +1,7 @@
+hmi/data/
+hmi/config.json
+__pycache__/
+*.pyc
+.venv/
+build/
+.DS_Store
