@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="ESP32 DAQ: bill of materials for boards A/B and C.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ESP32 DAQ: bill of materials</title>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/daq.css">
+  <link rel="icon" href="./static/img/favicon.svg">
+  <style>
+    html[data-lang="en"] .pt { display: none !important; }
+    html[data-lang="pt"] .en { display: none !important; }
+    .langsw .button.is-active-lang { background: var(--azul); color: #fff; border-color: var(--azul); }
+    table.bom td.ok, table.bom th.ok { width: 2.2rem; text-align: center; }
+    table.bom code { white-space: normal; }
+    ol.steps { margin-left: 1.4rem; } ol.steps li { margin: .5rem 0; }
+    .warn { border-left: 4px solid #c0392b; background: #fdf1ef; padding: .8rem 1rem; border-radius: 0 8px 8px 0; margin: 1.2rem 0; }
+    .tools { columns: 2; column-gap: 2rem; } @media (max-width: 768px) { .tools { columns: 1; } }
+    @media print { .navbar, footer { display: none; } }
+  </style>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script>
+    (function () {
+      var lang = 'en';
+      try { lang = localStorage.getItem('daq-lang') || ((navigator.language || '').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en'); } catch (e) {}
+      function apply(l) {
+        document.documentElement.setAttribute('data-lang', l); document.documentElement.lang = l;
+        document.querySelectorAll('[data-set-lang]').forEach(function (b) { b.classList.toggle('is-active-lang', b.getAttribute('data-set-lang') === l); });
+      }
+      document.documentElement.setAttribute('data-lang', lang);
+      document.addEventListener('DOMContentLoaded', function () {
+        apply(lang);
+        document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+          b.addEventListener('click', function () { lang = b.getAttribute('data-set-lang'); apply(lang); try { localStorage.setItem('daq-lang', lang); } catch (e) {} });
+        });
+        var bg = document.querySelector('.navbar-burger'), m = document.querySelector('.navbar-menu');
+        bg.addEventListener('click', function () { bg.classList.toggle('is-active'); m.classList.toggle('is-active'); });
+        m.querySelectorAll('a.navbar-item').forEach(function (a) { a.addEventListener('click', function () { bg.classList.remove('is-active'); m.classList.remove('is-active'); }); });
+      });
+    })();
+  </script>
+</head>
+<body>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="./index.html"><strong>ESP32 DAQ</strong></a>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="#bom"><span class="en">Bill of materials</span><span class="pt">Lista de componentes</span></a>
+    </div>
+    <div class="navbar-end">
+      <div class="navbar-item"><div class="buttons has-addons langsw">
+        <button class="button is-small" data-set-lang="en">EN</button><button class="button is-small" data-set-lang="pt">PT</button>
+      </div></div>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" id="top"><div class="hero-body"><div class="container is-max-desktop has-text-centered">
+  <h1 class="title is-2 publication-title"><span class="en">Bill of materials</span><span class="pt">Lista de componentes</span></h1>
+  <p class="subtitle is-5"><span class="en">Parts of boards A/B and C</span><span class="pt">Peças das placas A/B e C</span></p>
+  <p><a class="button is-rounded is-dark" href="./index.html"><span class="en">← Back to the project page</span><span class="pt">← Voltar à página do projeto</span></a></p>
+</div></div></section>
+
+<section class="section" id="bom"><div class="container is-max-desktop"><div class="content">
+  <h2 class="title is-3 section-title has-text-centered"><span class="en">Bill of materials</span><span class="pt">Lista de componentes</span></h2>
+  <p class="has-text-centered"><a class="button is-rounded is-dark" href="./static/pdf/mapa_montagem.pdf" target="_blank" rel="noopener"><span class="icon"><i class="fas fa-file-pdf"></i></span><span><span class="en">Assembly map (PDF, 1:1 scale, print on A4)</span><span class="pt">Mapa de montagem (PDF, escala 1:1, imprimir em A4)</span></span></a></p>
+  <h3><span class="en">Board C: ±15 V supply (48 × 52 mm)</span><span class="pt">Placa C: fonte de ±15 V (48 × 52 mm)</span></h3>
+  <figure class="fig w85"><img src="./static/img/asm_c_top.png" alt="Board C, top view with component labels"><figcaption><span class="en">Board C, top view. The printed board has no silkscreen: use this picture and the assembly map (PDF, 1:1) to see where each part goes.</span><span class="pt">Placa C, vista de cima. A placa impressa não tem serigrafia: use esta figura e o mapa de montagem (PDF, escala 1:1) para ver onde vai cada peça.</span></figcaption></figure>
+  <div class="table-container"><table class="table is-striped is-fullwidth bom"><thead><tr>
+<th class="ok">✓</th><th class="num"><span class="en">Qty</span><span class="pt">Qtd</span></th><th><span class="en">Part</span><span class="pt">Peça</span></th><th><span class="en">Value</span><span class="pt">Valor</span></th><th><span class="en">References</span><span class="pt">Referências</span></th><th><span class="en">Notes</span><span class="pt">Observações</span></th></tr></thead><tbody>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">2</td><td><span class="en">Resistor 1/4 W</span><span class="pt">Resistor 1/4 W</span></td><td class="num">2 kΩ</td><td><code>Rl1, Rl2</code></td><td><span class="en">test loads of the supply</span><span class="pt">cargas de teste da fonte</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">2</td><td><span class="en">Ceramic capacitor</span><span class="pt">Capacitor cerâmico</span></td><td class="num">100 nF</td><td><code>Cv3, Cw3</code></td><td><span class="en">no polarity</span><span class="pt">sem polaridade</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">4</td><td><span class="en">Electrolytic capacitor</span><span class="pt">Capacitor eletrolítico</span></td><td class="num">10 µF / 25 V</td><td><code>Cv1, Cv2, Cw1, Cw2</code></td><td><span class="en">polarity: follow the + on the assembly map (on the negative rail the + goes to GND; the map already shows it)</span><span class="pt">polaridade: siga o + do mapa de montagem (na trilha negativa o + vai ao GND; o mapa já mostra)</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">1</td><td><span class="en">Regulator L78L15 (TO-92)</span><span class="pt">Regulador L78L15 (TO-92)</span></td><td class="num">+15 V</td><td><code>U3</code></td><td><span class="en">flat face as in the assembly map; pinout: OUT | GND | IN</span><span class="pt">face plana como no mapa de montagem; pinagem: OUT | GND | IN</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">1</td><td><span class="en">Regulator L79L15 (TO-92)</span><span class="pt">Regulador L79L15 (TO-92)</span></td><td class="num">−15 V</td><td><code>U4</code></td><td><span class="en">flat face as in the assembly map; pinout: GND | IN | OUT</span><span class="pt">face plana como no mapa de montagem; pinagem: GND | IN | OUT</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">1</td><td><span class="en">Screw terminal 5.08 mm, 3 poles</span><span class="pt">Borne de parafuso 5,08 mm, 3 polos</span></td><td class="num">KRE / KF301</td><td><code>J3</code></td><td><span class="en">+15 V, GND, −15 V (to board A/B); wire entry towards the board edge</span><span class="pt">+15 V, GND, −15 V (para a placa A/B); entrada do fio voltada para a borda</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">1</td><td><span class="en">Screw terminal 5.08 mm, 2 poles</span><span class="pt">Borne de parafuso 5,08 mm, 2 polos</span></td><td class="num">KRE / KF301</td><td><code>JP</code></td><td><span class="en">power source input (5 V charger, or 8–12 V); wire entry towards the board edge</span><span class="pt">entrada da fonte (carregador de 5 V ou 8 a 12 V); entrada do fio voltada para a borda</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">2</td><td><span class="en">Male pin header 1×4, 2.54 mm</span><span class="pt">Barra de pinos macho 1×4, 2,54 mm</span></td><td class="num"></td><td><code>MT, LM</code></td><td><span class="en">short wires to the MT3608 and LM2596 modules</span><span class="pt">fios curtos para os módulos MT3608 e LM2596</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">3</td><td><span class="en">Test point / pin</span><span class="pt">Ponto de teste / pino</span></td><td class="num"></td><td><code>TPp, TPg, TPn</code></td><td><span class="en">+15 V, GND, −15 V</span><span class="pt">+15 V, GND, −15 V</span></td></tr>
+</tbody></table></div>
+  <h3><span class="en">Board A/B: inputs, ESP32 and output (74 × 72 mm)</span><span class="pt">Placa A/B: entradas, ESP32 e saída (74 × 72 mm)</span></h3>
+  <figure class="fig w85"><img src="./static/img/asm_ab_top.png" alt="Board A/B, top view with component labels"><figcaption><span class="en">Board A/B, top view. The printed board has no silkscreen: use this picture and the assembly map. The outline in the middle is where the ESP32 DevKit sits (USB to the right).</span><span class="pt">Placa A/B, vista de cima. A placa impressa não tem serigrafia: use esta figura e o mapa de montagem. O retângulo no meio é o lugar do ESP32 DevKit (USB para a direita).</span></figcaption></figure>
+  <div class="table-container"><table class="table is-striped is-fullwidth bom"><thead><tr>
+<th class="ok">✓</th><th class="num"><span class="en">Qty</span><span class="pt">Qtd</span></th><th><span class="en">Part</span><span class="pt">Peça</span></th><th><span class="en">Value</span><span class="pt">Valor</span></th><th><span class="en">References</span><span class="pt">Referências</span></th><th><span class="en">Notes</span><span class="pt">Observações</span></th></tr></thead><tbody>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">4</td><td><span class="en">Resistor 1/4 W</span><span class="pt">Resistor 1/4 W</span></td><td class="num">10 kΩ</td><td><code>Rs, Rs2, Rp1, Rp2</code></td><td></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">4</td><td><span class="en">Resistor 1/4 W</span><span class="pt">Resistor 1/4 W</span></td><td class="num">20 kΩ</td><td><code>R2, R3, R22, R32</code></td><td></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">4</td><td><span class="en">Resistor 1/4 W</span><span class="pt">Resistor 1/4 W</span></td><td class="num">100 kΩ</td><td><code>R1, R12, Rpd, Rpu</code></td><td></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">3</td><td><span class="en">Resistor 1/4 W</span><span class="pt">Resistor 1/4 W</span></td><td class="num">1 kΩ</td><td><code>Ro, Ro2, Rb</code></td><td></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">1</td><td><span class="en">Resistor 1/4 W</span><span class="pt">Resistor 1/4 W</span></td><td class="num">2.2 kΩ</td><td><code>Rf</code></td><td></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">1</td><td><span class="en">Resistor 1/4 W</span><span class="pt">Resistor 1/4 W</span></td><td class="num">680 Ω</td><td><code>Ra</code></td><td></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">1</td><td><span class="en">Resistor 1/4 W</span><span class="pt">Resistor 1/4 W</span></td><td class="num">47 Ω</td><td><code>Rx</code></td><td><span class="en">output series resistor</span><span class="pt">resistor em série da saída</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">4</td><td><span class="en">Schottky diode BAT81 (DO-35)</span><span class="pt">Diodo Schottky BAT81 (DO-35)</span></td><td class="num"></td><td><code>D1, D2, D3, D4</code></td><td><span class="en">polarity: the stripe is the cathode and goes to the side marked K on the assembly map</span><span class="pt">polaridade: a faixa é o catodo e vai para o lado marcado K no mapa de montagem</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">7</td><td><span class="en">Ceramic capacitor</span><span class="pt">Capacitor cerâmico</span></td><td class="num">100 nF</td><td><code>Cd, Cd2, Cd3, Co, Co2, Cp1, Cp2</code></td><td><span class="en">no polarity</span><span class="pt">sem polaridade</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">2</td><td><span class="en">Electrolytic capacitor</span><span class="pt">Capacitor eletrolítico</span></td><td class="num">10 µF / 25 V</td><td><code>C+, C−</code></td><td><span class="en">polarity: follow the + on the assembly map (C− sits on the −15 V rail: its + goes to GND; the map already shows it)</span><span class="pt">polaridade: siga o + do mapa de montagem (C− fica na trilha de −15 V: o + vai ao GND; o mapa já mostra)</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">1</td><td><span class="en">DIP-8 socket + MCP6002-I/P</span><span class="pt">Soquete DIP-8 + MCP6002-I/P</span></td><td class="num"></td><td><code>U1</code></td><td><span class="en">socket notch as in the assembly map; insert the chip only after the supply test</span><span class="pt">o entalhe do soquete é o do mapa de montagem; coloque o CI só depois do teste da fonte</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">1</td><td><span class="en">DIP-8 socket + TL072</span><span class="pt">Soquete DIP-8 + TL072</span></td><td class="num"></td><td><code>U2</code></td><td><span class="en">same as U1</span><span class="pt">igual ao U1</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">2</td><td><span class="en">Female socket strip 1×15, 2.54 mm</span><span class="pt">Barra de soquetes fêmea 1×15, 2,54 mm</span></td><td class="num"></td><td><code>J4, J5</code></td><td><span class="en">for the ESP32 DevKit (30 pins); see the tip on alignment</span><span class="pt">para o ESP32 DevKit (30 pinos); veja a dica de alinhamento</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">1</td><td><span class="en">Screw terminal 5.08 mm, 4 poles</span><span class="pt">Borne de parafuso 5,08 mm, 4 polos</span></td><td class="num">KRE / KF301</td><td><code>J1</code></td><td><span class="en">VIN1, VIN2, VOUT, GND; wire entry towards the board edge</span><span class="pt">VIN1, VIN2, VOUT, GND; entrada do fio voltada para a borda</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td class="num">1</td><td><span class="en">Screw terminal 5.08 mm, 3 poles</span><span class="pt">Borne de parafuso 5,08 mm, 3 polos</span></td><td class="num">KRE / KF301</td><td><code>J3</code></td><td><span class="en">+15 V, GND, −15 V (from board C)</span><span class="pt">+15 V, GND, −15 V (vindos da placa C)</span></td></tr>
+</tbody></table></div>
+  <h3><span class="en">Other parts (not on the boards)</span><span class="pt">Outros itens (fora das placas)</span></h3>
+  <div class="table-container"><table class="table is-striped is-fullwidth bom"><thead><tr><th class="ok">✓</th><th><span class="en">Item</span><span class="pt">Item</span></th><th class="num"><span class="en">Qty</span><span class="pt">Qtd</span></th><th><span class="en">Notes</span><span class="pt">Observações</span></th></tr></thead><tbody>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td><span class="en">ESP32 DevKit, 30 pins</span><span class="pt">ESP32 DevKit, 30 pinos</span></td><td class="num">1</td><td><span class="en">plugs into J4 and J5; its VIN pin is never connected</span><span class="pt">encaixa em J4 e J5; o pino VIN dele nunca é ligado</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td><span class="en">Module MT3608 (step-up)</span><span class="pt">Módulo MT3608 (step-up)</span></td><td class="num">1</td><td><span class="en">adjusted to +17.5 V</span><span class="pt">ajustado em +17,5 V</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td><span class="en">Module LM2596 adjustable (4 terminals: IN+, IN−, OUT+, OUT−)</span><span class="pt">Módulo LM2596 ajustável (4 terminais: IN+, IN−, OUT+, OUT−)</span></td><td class="num">1</td><td><span class="en">used as inverter, adjusted to −17.5 V</span><span class="pt">usado como inversor, ajustado em −17,5 V</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td><span class="en">Power source: 5 V phone charger (≥ 1 A) with the USB cable cut, or any 8–12 V source (≥ 1 A)</span><span class="pt">Fonte: carregador de celular de 5 V (≥ 1 A) com o cabo USB cortado, ou qualquer fonte de 8 a 12 V (≥ 1 A)</span></td><td class="num">1</td><td><span class="en">check the polarity with the multimeter; a weak source or thin cable makes the LM2596 fail to start</span><span class="pt">confira a polaridade com o multímetro; fonte fraca ou cabo fino faz o LM2596 não partir</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td><span class="en">USB cable for the ESP32</span><span class="pt">Cabo USB do ESP32</span></td><td class="num">1</td><td><span class="en">power and serial</span><span class="pt">alimentação e serial</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td><span class="en">Flexible wire</span><span class="pt">Fio flexível</span></td><td class="num">—</td><td><span class="en">C → A/B (3 wires) and modules → C (8 short wires of ≈ 10 cm)</span><span class="pt">C → A/B (3 fios) e módulos → C (8 fios curtos de ≈ 10 cm)</span></td></tr>
+<tr><td class="ok"><input type="checkbox" aria-label="done"></td><td><span class="en">M3 standoffs 6 mm + M3 screws</span><span class="pt">Espaçadores M3 de 6 mm + parafusos M3</span></td><td class="num">8 + 8</td><td><span class="en">4 holes on each board</span><span class="pt">4 furos em cada placa</span></td></tr>
+</tbody></table></div>
+  <h3><span class="en">Resistor colour codes</span><span class="pt">Código de cores dos resistores</span></h3>
+  <div class="table-container"><table class="table is-striped"><thead><tr><th><span class="en">Value</span><span class="pt">Valor</span></th><th><span class="en">4-band code (5 %)</span><span class="pt">Código de 4 faixas (5 %)</span></th></tr></thead><tbody>
+<tr><td class="num">47 Ω</td><td><span class="en">yellow · violet · black · gold</span><span class="pt">amarelo · violeta · preto · dourado</span></td></tr>
+<tr><td class="num">680 Ω</td><td><span class="en">blue · grey · brown · gold</span><span class="pt">azul · cinza · marrom · dourado</span></td></tr>
+<tr><td class="num">1 kΩ</td><td><span class="en">brown · black · red · gold</span><span class="pt">marrom · preto · vermelho · dourado</span></td></tr>
+<tr><td class="num">2 kΩ</td><td><span class="en">red · black · red · gold</span><span class="pt">vermelho · preto · vermelho · dourado</span></td></tr>
+<tr><td class="num">2.2 kΩ</td><td><span class="en">red · red · red · gold</span><span class="pt">vermelho · vermelho · vermelho · dourado</span></td></tr>
+<tr><td class="num">10 kΩ</td><td><span class="en">brown · black · orange · gold</span><span class="pt">marrom · preto · laranja · dourado</span></td></tr>
+<tr><td class="num">20 kΩ</td><td><span class="en">red · black · orange · gold</span><span class="pt">vermelho · preto · laranja · dourado</span></td></tr>
+<tr><td class="num">100 kΩ</td><td><span class="en">brown · black · yellow · gold</span><span class="pt">marrom · preto · amarelo · dourado</span></td></tr>
+</tbody></table></div>
+</div></div></section>
+
+<section class="section"><div class="container is-max-desktop">
+  <p class="has-text-centered"><a class="button is-rounded is-dark" href="https://github.com/helonayala/analog_circuits"><span class="icon"><i class="fas fa-microchip"></i></span><span><span class="en">Full hardware design (analog_circuits)</span><span class="pt">Projeto completo do hardware (analog_circuits)</span></span></a></p>
+</div></section>
+
+<footer class="footer"><div class="container"><div class="content has-text-centered"><p>
+  <span class="en">Part of the </span><span class="pt">Parte da </span><a href="./index.html">ESP32 DAQ</a><span class="en"> project.</span><span class="pt">.</span>
+</p></div></div></footer>
+</body>
+</html>

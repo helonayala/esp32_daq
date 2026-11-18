@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D model</title>
+<style>
+  html, body { margin: 0; height: 100%; background: radial-gradient(#f7f7f7, #d9d9d9); font-family: sans-serif; }
+  model-viewer { width: 100%; height: 100%; --poster-color: transparent; }
+</style>
+<script type="module" src="../js/model-viewer.min.js"></script>
+</head>
+<body>
+<model-viewer id="mv" camera-controls touch-action="pan-y" camera-orbit="30deg 55deg auto" field-of-view="30deg"
+  shadow-intensity="1" exposure="0.8" interaction-prompt="auto"></model-viewer>
+<script>
+  // ?m=board_ab | board_c  (.glb file next to this page)
+  var m = (new URLSearchParams(location.search).get('m') || 'board_ab').replace(/[^a-z_]/g, '');
+  var mv = document.getElementById('mv');
+  mv.setAttribute('src', m + '.glb');
+  mv.setAttribute('poster', '../img/pcb_' + (m === 'board_c' ? 'c' : 'ab') + '_3d_persp.png');
+  mv.setAttribute('alt', m === 'board_c' ? '3D model of board C: ±15 V supply' : '3D model of board A/B: inputs, ESP32 sockets and output');
+</script>
+</body>
+</html>

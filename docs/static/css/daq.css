@@ -1,0 +1,32 @@
+:root { --azul: #0b5394; --laranja: #b45f06; --cinza: #5a6472; }
+html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
+body { color: #2b2f36; }
+.navbar { position: sticky; top: 0; z-index: 30; border-bottom: 1px solid #eee; }
+.navbar-item { font-family: 'Google Sans', sans-serif; }
+.hero .publication-title { color: var(--azul); }
+.hero .subtitle.is-4 { color: var(--cinza); font-family: 'Google Sans', sans-serif; }
+.publication-authors .org { color: var(--cinza); }
+.section-title { font-family: 'Google Sans', sans-serif; color: var(--azul); }
+.content h3 { font-family: 'Google Sans', sans-serif; color: var(--azul); margin-top: 2rem; }
+figure.fig { margin: 1.5rem auto; text-align: center; }
+figure.fig img { display: block; margin: 0 auto; max-width: 100%; height: auto; background: #fff;
+  border: 1px solid #e6e8ec; border-radius: 10px; padding: .6rem; }
+figure.fig figcaption { font-size: .92rem; color: var(--cinza); margin-top: .6rem; }
+.w70 { width: 70%; } .w85 { width: 85%; } .w95 { width: 95%; }
+@media (max-width: 768px) { .w70, .w85, .w95 { width: 100%; } }
+table.table { font-size: .95rem; margin: 1rem auto; }
+table.table th { color: var(--azul); }
+table.table td.num, table.table th.num { text-align: right; white-space: nowrap; }
+.eq { text-align: center; margin: 1rem 0; overflow-x: auto; }
+.viewer-3d { width: 100%; height: 440px; border: 1px solid #e6e8ec; border-radius: 10px; display: block; }
+.viewer-3d-caption { text-align: center; font-size: .92rem; color: var(--cinza); margin: .5rem 0 1.6rem; }
+.nota { border-left: 4px solid var(--laranja); background: #fff8f0; padding: .8rem 1rem; border-radius: 0 8px 8px 0; margin: 1.2rem 0; }
+.chip { display: inline-block; background: #e9f1fa; color: var(--azul); border-radius: 999px; padding: .1rem .7rem; font-size: .85rem; margin: .1rem .15rem; }
+pre { border-radius: 8px; font-size: .88rem; }
+code { color: #b4326a; }
+footer.footer { background: #fafafa; }
+.chip { margin: .2rem .15rem; }
+figure.fig img { width: 100%; }
+.teaser figure.fig { width: 100%; }
+.teaser .hero-body { width: 100%; }
+.hero.teaser > .container { width: 100%; }

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-70 0 1010 440" font-family="Helvetica, Arial, sans-serif" role="img"><title>Block diagram: ESP32, output, inputs, ±15 V supply and bench</title><rect x="-70" width="100%" height="100%" fill="white"/>
+<rect x="340" y="50" width="220" height="290" rx="8" fill="#e3f3e9" stroke="#2a8550" stroke-width="2.5"/>
+<text x="450.0" y="78" text-anchor="middle" font-size="18" fill="#2a8550" font-weight="bold">ESP32 DevKit</text>
+<text x="450.0" y="104" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">3.3 V · 12-bit ADC</text>
+<text x="450.0" y="122" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">12-bit PWM</text>
+<text x="352" y="155" text-anchor="start" font-size="15" fill="#1b1b1b" font-weight="normal">D18 (PWM)</text>
+<text x="352" y="260" text-anchor="start" font-size="15" fill="#1b1b1b" font-weight="normal">D34 (A0)</text>
+<text x="352" y="320" text-anchor="start" font-size="15" fill="#1b1b1b" font-weight="normal">D35 (A1)</text>
+<rect x="20" y="14" width="250" height="62" rx="8" fill="#fbe9e7" stroke="#b23a2f" stroke-width="2.5"/>
+<text x="145.0" y="42" text-anchor="middle" font-size="18" fill="#b23a2f" font-weight="bold">±15 V supply</text>
+<text x="145.0" y="68" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">generated from the 5 V</text>
+<rect x="20" y="110" width="250" height="100" rx="8" fill="#fdf0dc" stroke="#b45f06" stroke-width="2.5"/>
+<text x="145.0" y="138" text-anchor="middle" font-size="18" fill="#b45f06" font-weight="bold">Output</text>
+<text x="145.0" y="164" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">PWM → 2 RC → TL072</text>
+<text x="145.0" y="182" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">Vo = 6.44·Vdac − 10.7 V</text>
+<rect x="20" y="230" width="250" height="130" rx="8" fill="#e6eefa" stroke="#0b5394" stroke-width="2.5"/>
+<text x="145.0" y="258" text-anchor="middle" font-size="18" fill="#0b5394" font-weight="bold">2 inputs</text>
+<text x="145.0" y="284" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">divider + level shift + clamps</text>
+<text x="145.0" y="302" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">+ MCP6002 follower</text>
+<text x="145.0" y="320" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">(±10 V → 0–3.3 V)</text>
+<polyline points="145,76 145,102" fill="none" stroke="#b23a2f" stroke-width="2" stroke-linejoin="round"/>
+<polygon points="145,110 139,98 151,98" fill="#b23a2f"/>
+<polyline points="-60,45 12,45" fill="none" stroke="#555" stroke-width="2" stroke-linejoin="round"/>
+<polygon points="18,45 6,39 6,51" fill="#555"/>
+<text x="-60" y="34" text-anchor="start" font-size="15" fill="#555" font-weight="bold">5 V</text>
+<text x="-60" y="66" text-anchor="start" font-size="13" fill="#555" font-weight="normal">charger</text>
+<rect x="680" y="60" width="230" height="280" rx="8" fill="#ececec" stroke="#555" stroke-width="2.5"/>
+<text x="795.0" y="88" text-anchor="middle" font-size="18" fill="#555" font-weight="bold">Bench / system</text>
+<text x="795.0" y="114" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">any system with</text>
+<text x="795.0" y="132" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">±10 V inputs and outputs</text>
+<text x="795" y="160" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">±10 V input</text>
+<text x="795" y="178" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">(actuator)</text>
+<text x="795" y="270" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">±10 V outputs</text>
+<text x="795" y="288" text-anchor="middle" font-size="15" fill="#1b1b1b" font-weight="normal">(sensors)</text>
+<polyline points="340,150 278,150" fill="none" stroke="#0b5394" stroke-width="2" stroke-linejoin="round"/>
+<polygon points="272,150 284,144 284,156" fill="#0b5394"/>
+<text x="300" y="140" text-anchor="middle" font-size="14" fill="#0b5394" font-weight="normal">PWM</text>
+<polyline points="270,130 305,130 305,28 795,28 795,52" fill="none" stroke="#b45f06" stroke-width="2.5" stroke-linejoin="round"/>
+<polygon points="795,60 789,48 801,48" fill="#b45f06"/>
+<text x="545" y="20" text-anchor="middle" font-size="15" fill="#b45f06" font-weight="bold">VOUT (±10 V)</text>
+<polyline points="795,340 795,392 145,392 145,370" fill="none" stroke="#2a8550" stroke-width="2.5" stroke-linejoin="round"/>
+<polygon points="145,362 139,374 151,374" fill="#2a8550"/>
+<text x="470" y="384" text-anchor="middle" font-size="15" fill="#2a8550" font-weight="bold">sensors (±10 V) → VIN1, VIN2</text>
+<polyline points="270,255 326,255" fill="none" stroke="#2a8550" stroke-width="2" stroke-linejoin="round"/>
+<polygon points="338,255 326,249 326,261" fill="#2a8550"/>
+<polyline points="270,315 326,315" fill="none" stroke="#2a8550" stroke-width="2" stroke-linejoin="round"/>
+<polygon points="338,315 326,309 326,321" fill="#2a8550"/>
+<text x="304" y="245" text-anchor="middle" font-size="14" fill="#2a8550" font-weight="normal">0–3.3 V</text>
+<text x="470" y="424" text-anchor="middle" font-size="15" fill="#555" font-weight="normal">Common GND: ESP32, board, supply and bench (single point)</text>
+</svg>
